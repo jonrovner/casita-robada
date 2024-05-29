@@ -18,7 +18,12 @@ function App2() {
   const getMachineMove = useCallback(() => {
     console.log("getting machine move");
     //try to steal user house
-    showWaiting(true)
+    
+      setTimeout(() => {
+        showWaiting(true)
+        
+      }, 1000);
+    
     
     let target = userHouse[userHouse.length -1]
     let houseStealer = target && machineHand.find( c => c.value == target.value)
@@ -37,27 +42,31 @@ function App2() {
       showWaiting(false)
 
       
-
     } else {
     //try to steal from well
+      
       let handValues = machineHand.map( c => c.value)
-      console.log("hand values", handValues)
-      showWaiting(true)
+      //console.log("hand values", handValues)
       let target = well.find( card => handValues.includes(card.value))
+      console.log("target in well", target);  
       
       if (target) {        
-        console.log("stealing from well");  
         
         let machineCard = machineHand.find( card => card.value == target.value)
-        let newHand = machineHand.filter( card => card.id !== machineCard.id)
-        setMachineHand(newHand)
-        setMachineHouse([...machineHouse, machineCard, target])
-        setTimeout(() => {
-          setWell(well.filter( card => card.id !== target.id))    
-        }, 1000);
-        showWaiting(false)
-        setPlayerTurn(true)
+        console.log("machine card", machineCard);
+        showWaiting(true)
 
+        setTimeout(() => {
+          
+          let newHand = machineHand.filter( card => card.id !== machineCard.id)
+          setMachineHand(newHand)
+          setMachineHouse([...machineHouse, machineCard, target])
+          setWell([...well.filter( card => card.id !== target.id)])
+          setPlayerTurn(true)
+          showWaiting(false)
+        
+        }, 1000);
+        
         
       } else {
 
@@ -66,7 +75,7 @@ function App2() {
         //drop to well
         setTimeout(() => {
           const cardToDrop = machineHand[0]
-        setWell([...well, cardToDrop])
+        setWell([...well, cardToDrop])  
         
         setMachineHand(machineHand.slice(1))
         showWaiting(false)
@@ -79,7 +88,7 @@ function App2() {
       } 
          
 
-  }, [machineHand, machineHouse, userHouse, playerTurn, isWaiting])
+  }, [well, machineHand, machineHouse, userHouse, playerTurn, isWaiting])
   
   const handleDrop = useCallback((item) => {
     
@@ -138,7 +147,8 @@ function App2() {
 
   useEffect(()=>{
     console.log("well updated", well);
-  },[well])
+    console.log("machine hand", machineHand);
+  },[well, machineHand])
   
   
   useEffect(()=> {
