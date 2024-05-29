@@ -1,0 +1,93 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.playingCard {
+  display: flex;
+  flex-direction: column;
+  
+  
+}
+.cardBody{
+  margin: 1rem;
+  height: 6rem;
+  width: 3.5rem;
+  
+  border: 1px solid red;
+  padding: 0.5rem;
+  background-color: black;
+}
+.well{
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-bottom: 1rem;
+}
+
+.hand{
+  display: flex;
+}
+
+.player {
+  padding: 1rem;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+.red{
+  background-color: lightpink;
+}
+.blue{
+  background-color: lightblue;
+}
+.cardback{
+  width: 1rem;
+  height: 1rem;
+  margin: 0.25rem;
+  background-color: aquamarine;
+
+}
+.deck{
+  max-width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+.cardButton{
+  border: 1px solid black;
+  cursor: pointer;
+}
+.app2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.users{
+  display: flex;
+}
+.user{
+  display: flex;
+  flex-direction: column;
+}
+.waiting{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
