@@ -18,28 +18,26 @@ function App2() {
   const getMachineMove = useCallback(() => {
     console.log("getting machine move");
     //try to steal user house
+    showWaiting(true)
     
-      setTimeout(() => {
-        showWaiting(true)
-        
-      }, 1000);
-    
-    
-    let target = userHouse[userHouse.length -1]
+    let target = userHouse[userHouse.length - 1]
     let houseStealer = target && machineHand.find( c => c.value == target.value)
     
     if ( houseStealer) {
+      
       console.log("stealing house");
+      
       setTimeout(() => {
         let newHand = machineHand.filter(c => c.id !== houseStealer.id)
-      setMachineHand(newHand)
-      setMachineHouse([...machineHouse, ...userHouse, houseStealer])
-      setUserHouse([])
-      setPlayerTurn(true)
+        setMachineHand(newHand)
+        setMachineHouse([...machineHouse, ...userHouse, houseStealer])
+        setUserHouse([])
+        showWaiting(false)
+        setPlayerTurn(true)
 
 
       }, 1000);
-      showWaiting(false)
+      
 
       
     } else {
@@ -62,8 +60,8 @@ function App2() {
           setMachineHand(newHand)
           setMachineHouse([...machineHouse, machineCard, target])
           setWell([...well.filter( card => card.id !== target.id)])
-          setPlayerTurn(true)
           showWaiting(false)
+          setPlayerTurn(true)
         
         }, 1000);
         
@@ -196,20 +194,33 @@ function App2() {
   }
   
   function Well({well, onDrop}){
+
+    const style = {
+      marginTop: '1rem',
+       display: 'grid',
+       gridTemplateColumns: '1fr 1fr 1fr 1fr',
+      marginBottom: '1rem',
+
+    }
   
       
-      const [{  }, drop] = useDrop(
+      const [{ canDrop, isOver }, drop] = useDrop(
           () => ({
             accept: ItemTypes.CARD,
+            collect: (monitor) => ({
+              canDrop: monitor.canDrop(),
+              isOver: monitor.isOver()
+
+            }),
             drop: (item) => onDrop(item)
             
           }),
           [],
         )
         
-  
-    return (
-      <div ref={drop} className='well' >
+      const backgroundColor = canDrop && isOver ? 'green' : 'black'
+      return (
+      <div ref={drop} className='well' style={{...style, backgroundColor}}>
       
         {
           well.length > 0 && well.map(card => <Card card={card} key={card.id}/> )
